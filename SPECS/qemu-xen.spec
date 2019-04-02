@@ -1,10 +1,10 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
 Version: 4.12.0
-Release: 0.2.rc1%{?dist}
+Release: 1%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
-Source0: qemu-xen-%{version}-rc1.tar.gz
+Source0: qemu-xen-%{version}.tar.gz
 
 Requires: xen-libs
 BuildRequires: xen-devel
@@ -74,6 +74,9 @@ rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
 %doc licensedir/*
 
 %changelog
+* Tue Apr 02 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.0-1
+- Xen 4.12 release
+
 * Fri Feb 22 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.0-0.2.rc1
 - Re-add tools as they were present in the xen-runtime package.
 - Add COPYING and LICENSE.
