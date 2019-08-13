@@ -1,6 +1,6 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
-Version: 4.12.0
+Version: 4.12.1
 Release: 1%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
@@ -74,6 +74,9 @@ rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
 %doc licensedir/*
 
 %changelog
+* Tue Aug 13 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.1-1
+- Xen 4.12.1 release
+
 * Tue Apr 02 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.0-1
 - Xen 4.12 release
 
