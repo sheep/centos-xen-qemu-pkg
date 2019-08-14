@@ -53,10 +53,11 @@ function make-tree()
 # see gpg --status-fd
 function check-gpg-status() {
     $arg_parse
-    $requireargs key
+    $requireargs keys
 
     local line fields
     local reason
+    local key
     while read line; do
         if ! [[ "$line" =~ ^\[GNUPG:\]\  ]]; then
             continue
@@ -70,6 +71,11 @@ function check-gpg-status() {
                 break
                 ;;
             VALIDSIG)
+                for key in "${keys[@]}"; do
+                    if [[ "${fields[2]}" == "$key" ]]; then
+                        break;
+                    fi
+                done
                 if [[ "${fields[2]}" != "$key" ]]; then
                     reason="Wrong key fingerprint"
                     break
@@ -128,7 +134,8 @@ function get-sources() {
 
         local gpg_status=$(gpgv --status-fd 1 --keyring "$TOPDIR/SOURCES/trustedkeys.gpg" <(echo -n "$tag_asc") <(echo -n "$tag_plaintext"))
         local what="qemu-xen git tag $tag"
-        check-gpg-status key=${QEMU_KEYS[0]} <<<"$gpg_status"
+        local -a keys=(${QEMU_KEYS[@]})
+        check-gpg-status <<<"$gpg_status"
 
         # By using merge --ff-only after checking out the tag, we make sure we
         # have at least the release tag of $XEN_VERSION in the history of
