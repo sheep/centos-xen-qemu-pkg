@@ -1,6 +1,6 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
-Version: 4.12.1
+Version: 4.13.1
 Release: 1%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
@@ -32,6 +32,7 @@ used with Xen.
 
 %build
 %define qemu_xen_prefix %{_libdir}/xen
+%define qemu_datadir %{_prefix}/share/qemu-xen
 
 ./configure \
         --enable-virtfs \
@@ -40,13 +41,16 @@ used with Xen.
         --disable-kvm \
         --disable-docs \
         --disable-guest-agent \
+        --disable-fdt \
+        --disable-vhost-user \
+        --disable-vhost-kernel \
         --extra-cflags="$RPM_OPT_FLAGS" \
         --enable-trace-backend=log \
         --prefix=%{qemu_xen_prefix} \
         --libdir=%{qemu_xen_prefix}/lib \
         --bindir=%{qemu_xen_prefix}/bin \
         --includedir=%{qemu_xen_prefix}/include \
-        --datadir=%{_prefix}/share/qemu-xen \
+        --datadir=%{qemu_datadir} \
         --localstatedir=%{_localstatedir} \
         --cpu=x86_64 \
         --target-list=i386-softmmu
@@ -62,6 +66,8 @@ install -m 644 -t licensedir COPYING LICENSE
 
 # qemu stuff (unused or available from upstream)
 rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
+rm -r %{buildroot}%{qemu_datadir}/applications
+rm -r %{buildroot}%{qemu_datadir}/icons
 
 %files
 %defattr(-,root,root)
@@ -74,6 +80,9 @@ rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
 %doc licensedir/*
 
 %changelog
+* Fri Jul 24 2020 Anthony PERARD <anthony.perard@citrix.com> - 4.13.1-1
+- Xen 4.13 release
+
 * Tue Aug 13 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.1-1
 - Xen 4.12.1 release
 
