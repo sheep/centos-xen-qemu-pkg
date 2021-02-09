@@ -1,6 +1,6 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
-Version: 4.13.1
+Version: 4.14.1
 Release: 1%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
@@ -16,10 +16,11 @@ BuildRequires: ncurses-devel
 BuildRequires: libaio-devel
 BuildRequires: gnutls-devel
 BuildRequires: curl-devel
+BuildRequires: python3
 # Spice
 BuildRequires: spice-server-devel usbredir-devel
 # Xen 9pfs
-BuildRequires: libcap-devel libattr-devel
+BuildRequires: libcap-ng-devel libattr-devel
 
 ExclusiveArch: x86_64
 
@@ -80,6 +81,9 @@ rm -r %{buildroot}%{qemu_datadir}/icons
 %doc licensedir/*
 
 %changelog
+* Tue Feb 09 2021 Anthony PERARD <anthony.perard@citrix.com> - 4.14.1-1
+- Xen 4.14 release
+
 * Fri Jul 24 2020 Anthony PERARD <anthony.perard@citrix.com> - 4.13.1-1
 - Xen 4.13 release
 
