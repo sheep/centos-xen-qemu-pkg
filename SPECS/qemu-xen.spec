@@ -1,7 +1,7 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
 Version: 4.12.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
 Source0: qemu-xen-%{version}.tar.gz
@@ -23,12 +23,15 @@ BuildRequires: libcap-devel libattr-devel
 
 ExclusiveArch: x86_64
 
+Patch1: xsa335-qemu.patch
+
 %description
 Device Model for the Xen hypervisor. This package provides QEMU that can be
 used with Xen.
 
 %prep
 %setup -q -c -n qemu-xen
+%patch1 -p1
 
 %build
 %define qemu_xen_prefix %{_libdir}/xen
@@ -74,6 +77,9 @@ rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
 %doc licensedir/*
 
 %changelog
+* Tue Aug 25 2020 Anthony PERARD <anthony.perard@citrix.com> - 4.12.1-2
+- Apply XSA-335
+
 * Tue Aug 13 2019 Anthony PERARD <anthony.perard@citrix.com> - 4.12.1-1
 - Xen 4.12.1 release
 
