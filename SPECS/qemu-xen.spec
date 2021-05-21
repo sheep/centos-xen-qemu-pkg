@@ -1,6 +1,6 @@
 Name:    qemu-xen
 Summary: Device Model for Xen
-Version: 4.14.1
+Version: 4.15.0
 Release: 1%{?dist}
 License: GPLv2
 URL:     https://www.xenproject.org/
@@ -23,6 +23,11 @@ BuildRequires: spice-server-devel usbredir-devel
 BuildRequires: libcap-ng-devel libattr-devel
 
 ExclusiveArch: x86_64
+
+%if 0%{?centos_ver} >= 8
+# Disable debug package due to installing qemu-xen in an non /bin /lib location
+%define debug_package %{nil}
+%endif
 
 %description
 Device Model for the Xen hypervisor. This package provides QEMU that can be
@@ -67,6 +72,8 @@ install -m 644 -t licensedir COPYING LICENSE
 
 # qemu stuff (unused or available from upstream)
 rm %{buildroot}%{_prefix}/libexec/qemu-bridge-helper
+rm %{buildroot}%{_prefix}/libexec/qemu-pr-helper
+rm %{buildroot}%{_prefix}/libexec/virtfs-proxy-helper
 rm -r %{buildroot}%{qemu_datadir}/applications
 rm -r %{buildroot}%{qemu_datadir}/icons
 
@@ -81,6 +88,9 @@ rm -r %{buildroot}%{qemu_datadir}/icons
 %doc licensedir/*
 
 %changelog
+* Fri May 21 2021 Anthony PERARD <anthony.perard@citrix.com> - 4.15.0-1
+- Xen 4.15 release
+
 * Tue Feb 09 2021 Anthony PERARD <anthony.perard@citrix.com> - 4.14.1-1
 - Xen 4.14 release
 
